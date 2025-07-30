@@ -222,7 +222,7 @@ export function AuctionExtension() {
                 </div>
               </div>
               <img
-                src="https://images.unsplash.com/photo-1611162618071-b39a2ec055fb?auto=format&fit=crop&q=80"
+                src="https://kehnwklkmquweyoyjijk.supabase.co/storage/v1/object/public/vin-images//ai-services-2.png"
                 alt="Social Media Template"
                 className="w-full aspect-square object-cover"
               />
