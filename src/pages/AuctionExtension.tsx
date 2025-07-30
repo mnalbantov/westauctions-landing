@@ -69,7 +69,7 @@ export function AuctionExtension() {
             </div>
             <div className="bg-gray-50 p-6 rounded-xl shadow-lg">
               <img
-                src="../assets/auction-monitoring.png"
+                src="https://westauctions.online/assets/auction-monitoring.png"
                 alt="Dashboard Preview"
                 className="rounded-lg shadow-md"
               />
