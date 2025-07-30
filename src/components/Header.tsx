@@ -14,7 +14,6 @@ export function Header() {
     { name: t.navigation.api, href: '/api' },
     { name: t.navigation.customWebsite, href: '/custom-website' },
     { name: t.navigation.auctionExtension, href: '/auction-extension' },
-    { name: t.navigation.automationTools, href: '/automation-tools' },
   ];
 
   return (
