@@ -207,6 +207,44 @@ const translations = {
       }
     }
   },
+  "automationTools": {
+    "hero": {
+      "title": "Automation Tools",
+      "subtitle": "Streamline your vehicle import business with our comprehensive automation solutions. From social media posting to auction monitoring, we've got you covered.",
+      "cta": "Explore Tools"
+    },
+    "featuresSection": {
+      "title": "Powerful Automation Features",
+      "subtitle": "Our automation tools are designed to save you time and increase efficiency across all aspects of your business"
+    },
+    "features": {
+      "ai": {
+        "title": "AI-Powered Automation",
+        "description": "Intelligent automation that learns and adapts to your business needs"
+      },
+      "realtime": {
+        "title": "Real-Time Processing",
+        "description": "Lightning-fast data processing and instant updates across all platforms"
+      },
+      "monitoring": {
+        "title": "24/7 Monitoring",
+        "description": "Continuous monitoring and automated responses to market changes"
+      },
+      "security": {
+        "title": "Secure & Reliable",
+        "description": "Enterprise-grade security with 99.9% uptime guarantee"
+      }
+    },
+    "gallery": {
+      "title": "Automation Tools Gallery",
+      "subtitle": "See our automation tools in action with real screenshots and demonstrations"
+    },
+    "cta": {
+      "title": "Ready to Automate Your Business?",
+      "subtitle": "Get started with our automation tools and transform your vehicle import operations today",
+      "button": "Start Automating"
+    }
+  },
   "bg": {
     "navigation": {
       "api": "API",
@@ -413,6 +451,44 @@ const translations = {
         "button": "Изпрати съобщение",
         "thanks": "Благодарим! Ще се свържем с вас скоро."
       }
+    }
+  },
+  "automationTools": {
+    "hero": {
+      "title": "Инструменти за Автоматизация",
+      "subtitle": "Оптимизирайте вашия бизнес за внос на автомобили с нашите цялостни решения за автоматизация. От публикуване в социални мрежи до мониторинг на търгове - ние ви покриваме.",
+      "cta": "Разгледайте Инструментите"
+    },
+    "featuresSection": {
+      "title": "Мощни Функции за Автоматизация",
+      "subtitle": "Нашите инструменти за автоматизация са проектирани да ви спестят време и да увеличат ефективността във всички аспекти на вашия бизнес"
+    },
+    "features": {
+      "ai": {
+        "title": "AI-Задвижвана Автоматизация",
+        "description": "Интелигентна автоматизация, която се учи и се адаптира към нуждите на вашия бизнес"
+      },
+      "realtime": {
+        "title": "Обработка в Реално Време",
+        "description": "Светкавично бърза обработка на данни и моментални актуализации на всички платформи"
+      },
+      "monitoring": {
+        "title": "24/7 Мониторинг",
+        "description": "Непрекъснат мониторинг и автоматизирани отговори на промените в пазара"
+      },
+      "security": {
+        "title": "Сигурен и Надежден",
+        "description": "Корпоративно ниво на сигурност с 99.9% гаранция за работно време"
+      }
+    },
+    "gallery": {
+      "title": "Галерия с Инструменти за Автоматизация",
+      "subtitle": "Вижте нашите инструменти за автоматизация в действие с реални снимки и демонстрации"
+    },
+    "cta": {
+      "title": "Готови ли сте да Автоматизирате Бизнеса си?",
+      "subtitle": "Започнете с нашите инструменти за автоматизация и трансформирайте операциите си за внос на автомобили днес",
+      "button": "Започнете Автоматизацията"
     }
   }
 };
