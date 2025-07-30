@@ -3,7 +3,8 @@ const translations = {
     "navigation": {
       "api": "API",
       "customWebsite": "Custom Website",
-      "auctionExtension": "Auction Extension"
+      "auctionExtension": "Auction Extension",
+      "automationTools": "Automation Tools"
     },
     "hero": {
       "title": "Your Gateway to North American Vehicles",
@@ -210,7 +211,8 @@ const translations = {
     "navigation": {
       "api": "API",
       "customWebsite": "Персонализиран уебсайт",
-      "auctionExtension": "Разширение за търгове"
+      "auctionExtension": "Разширение за търгове",
+      "automationTools": "Инструменти за автоматизация"
     },
     "hero": {
       "title": "Вашият портал към автомобили от Северна Америка",
