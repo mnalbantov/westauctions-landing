@@ -237,7 +237,7 @@ export function AuctionExtension() {
                 </div>
               </div>
               <img
-                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80"
+                src="https://kehnwklkmquweyoyjijk.supabase.co/storage/v1/object/public/vin-images//vehicle-publish.png"
                 alt="Analytics Template"
                 className="w-full aspect-square object-cover"
               />
