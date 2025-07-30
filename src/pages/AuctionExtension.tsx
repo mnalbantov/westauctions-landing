@@ -201,7 +201,7 @@ export function AuctionExtension() {
               <div className="bg-gray-50 p-4 border-b">
                 <div className="flex items-center gap-2">
                   <Smartphone className="w-5 h-5 text-primary-600" />
-                  <h3 className="font-semibold text-gray-900">Мобилен Изглед</h3>
+                  <h3 className="font-semibold text-gray-900">Маркет Анализ</h3>
                 </div>
               </div>
               <img
