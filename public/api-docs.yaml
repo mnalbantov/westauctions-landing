@@ -1,0 +1,867 @@
+openapi: 3.0.3
+info:
+  title: Auto Auctions API
+  description: API for retrieving auction vehicle data from various sources including IAAI
+  version: 1.0.0
+  contact:
+    name: West Auctions
+    url: https://auto.westauctions.online
+servers:
+  - url: https://auto.westauctions.online/api
+    description: Production server
+
+paths:
+  /auctions/internal:
+    post:
+      summary: Get internal auction vehicles
+      description: |
+        Retrieve paginated list of vehicles from various auction sources with filtering options.
+        This endpoint provides comprehensive vehicle data including detailed specifications, damage information,
+        images, location details, and auction timing. Primarily used for internal auction management
+        and vehicle inventory tracking across multiple auction platforms.
+      tags:
+        - Auctions
+      parameters:
+        - name: page
+          in: query
+          description: Page number for pagination
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+            example: 1
+        - name: per_page
+          in: query
+          description: Number of items per page
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 1000
+            default: 100
+            example: 5
+        - name: date_from
+          in: query
+          description: Filter vehicles from this date (ISO 8601 format)
+          required: false
+          schema:
+            type: string
+            format: date
+            example: "2025-01-01"
+        - name: date_to
+          in: query
+          description: Filter vehicles until this date (ISO 8601 format)
+          required: false
+          schema:
+            type: string
+            format: date
+            example: "2025-12-31"
+        - name: auction
+          in: query
+          description: Auction source identifier
+          required: false
+          schema:
+            type: string
+            enum: [iaai, copart, manheim]
+            default: iaai
+            example: iaai
+        - name: country
+          in: query
+          description: Country code for filtering vehicles
+          required: false
+          schema:
+            type: string
+            pattern: '^[a-z]{2}$'
+            default: us
+            example: us
+      responses:
+        '200':
+          description: Successful response with paginated vehicle data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedVehicleResponse'
+        '401':
+          description: Unauthorized - API token missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '400':
+          description: Bad request - Invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /buy-now-stocks:
+    get:
+      summary: Get buy-now stock items
+      description: |
+        Retrieve paginated list of vehicles available for immediate purchase with fixed pricing.
+        This endpoint provides buy-now inventory with real-time pricing and availability status.
+        Includes closing dates for time-sensitive offers and tracks seller information.
+        Used for customers looking to purchase vehicles immediately without participating in auctions.
+      tags:
+        - Buy Now Stocks
+      parameters:
+        - name: page
+          in: query
+          description: Page number for pagination
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+            example: 1
+        - name: per_page
+          in: query
+          description: Number of items per page
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 1000
+            default: 1000
+            example: 10
+        - name: date_from
+          in: query
+          description: Filter vehicles from this date (ISO 8601 format)
+          required: false
+          schema:
+            type: string
+            format: date
+            example: "2025-01-01"
+        - name: date_to
+          in: query
+          description: Filter vehicles until this date (ISO 8601 format)
+          required: false
+          schema:
+            type: string
+            format: date
+            example: "2025-12-31"
+      responses:
+        '200':
+          description: Successful response with paginated buy-now stock data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBuyNowStockResponse'
+        '401':
+          description: Unauthorized - API token missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '400':
+          description: Bad request - Invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /current-bids:
+    get:
+      summary: Get current bid information
+      description: |
+        Retrieve current bid amounts for auction items by stock ID.
+        This endpoint provides real-time bidding information for active auctions,
+        allowing users to track current bid prices and auction activity.
+        Essential for auction participants to monitor competitive bidding.
+      tags:
+        - Bids
+      parameters:
+        - name: stock_id
+          in: query
+          description: Stock ID to get current bid for (optional - if not provided, returns all current bids)
+          required: false
+          schema:
+            type: string
+            example: "40567254"
+        - name: page
+          in: query
+          description: Page number for pagination
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+            example: 1
+        - name: per_page
+          in: query
+          description: Number of items per page
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 1000
+            default: 100
+            example: 50
+      responses:
+        '200':
+          description: Successful response with current bid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCurrentBidsResponse'
+        '401':
+          description: Unauthorized - API token missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '400':
+          description: Bad request - Invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    PaginatedVehicleResponse:
+      type: object
+      properties:
+        current_page:
+          type: integer
+          description: Current page number
+          example: 1
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Vehicle'
+        first_page_url:
+          type: string
+          format: uri
+          example: "https://auto.westauctions.online/api/auctions/internal?page=1"
+        from:
+          type: integer
+          description: Starting item number on current page
+          example: 1
+        last_page:
+          type: integer
+          description: Last page number
+          example: 10779
+        last_page_url:
+          type: string
+          format: uri
+          example: "https://auto.westauctions.online/api/auctions/internal?page=10779"
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaginationLink'
+        next_page_url:
+          type: string
+          format: uri
+          nullable: true
+          example: "https://auto.westauctions.online/api/auctions/internal?page=2"
+        path:
+          type: string
+          format: uri
+          example: "https://auto.westauctions.online/api/auctions/internal"
+        per_page:
+          type: integer
+          description: Number of items per page
+          example: 5
+        prev_page_url:
+          type: string
+          format: uri
+          nullable: true
+          example: null
+        to:
+          type: integer
+          description: Ending item number on current page
+          example: 5
+        total:
+          type: integer
+          description: Total number of items
+          example: 53891
+
+    PaginatedBuyNowStockResponse:
+      type: object
+      properties:
+        current_page:
+          type: integer
+          description: Current page number
+          example: 1
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/BuyNowStock'
+        first_page_url:
+          type: string
+          format: uri
+          example: "https://auto.westauctions.online/api/buy-now-stocks?page=1"
+        from:
+          type: integer
+          description: Starting item number on current page
+          example: 1
+        last_page:
+          type: integer
+          description: Last page number
+          example: 1972
+        last_page_url:
+          type: string
+          format: uri
+          example: "https://auto.westauctions.online/api/buy-now-stocks?page=1972"
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaginationLink'
+        next_page_url:
+          type: string
+          format: uri
+          nullable: true
+          example: "https://auto.westauctions.online/api/buy-now-stocks?page=2"
+        path:
+          type: string
+          format: uri
+          example: "https://auto.westauctions.online/api/buy-now-stocks"
+        per_page:
+          type: integer
+          description: Number of items per page
+          example: 10
+        prev_page_url:
+          type: string
+          format: uri
+          nullable: true
+          example: null
+        to:
+          type: integer
+          description: Ending item number on current page
+          example: 10
+        total:
+          type: integer
+          description: Total number of items
+          example: 19712
+
+    PaginatedCurrentBidsResponse:
+      type: object
+      properties:
+        current_page:
+          type: integer
+          description: Current page number
+          example: 1
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CurrentBid'
+        first_page_url:
+          type: string
+          format: uri
+          example: "https://auto.westauctions.online/api/current-bids?page=1"
+        from:
+          type: integer
+          description: Starting item number on current page
+          example: 1
+        last_page:
+          type: integer
+          description: Last page number
+          example: 250
+        last_page_url:
+          type: string
+          format: uri
+          example: "https://auto.westauctions.online/api/current-bids?page=250"
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaginationLink'
+        next_page_url:
+          type: string
+          format: uri
+          nullable: true
+          example: "https://auto.westauctions.online/api/current-bids?page=2"
+        path:
+          type: string
+          format: uri
+          example: "https://auto.westauctions.online/api/current-bids"
+        per_page:
+          type: integer
+          description: Number of items per page
+          example: 50
+        prev_page_url:
+          type: string
+          format: uri
+          nullable: true
+          example: null
+        to:
+          type: integer
+          description: Ending item number on current page
+          example: 50
+        total:
+          type: integer
+          description: Total number of items
+          example: 12500
+
+    CurrentBid:
+      type: object
+      properties:
+        stock_id:
+          type: string
+          description: Stock identifier for the auction item
+          example: "40567254"
+        current_bid:
+          type: integer
+          description: Current highest bid amount in USD cents
+          minimum: 0
+          example: 350000
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp of last bid update
+          example: "2025-06-17T14:30:00.000000Z"
+
+    BuyNowStock:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique stock item identifier
+          example: 11189754
+        stock_number:
+          type: string
+          description: Stock number
+          example: "39875542"
+        source:
+          type: string
+          description: Auction source
+          enum: [iaai, copart, manheim]
+          example: "iaai"
+        price:
+          type: number
+          description: Buy-now price in USD
+          minimum: 0
+          example: 3500
+        status:
+          type: string
+          description: Current stock status
+          enum: [AVAILABLE, SOLD, RESERVED, EXPIRED]
+          example: "AVAILABLE"
+        close_date:
+          type: string
+          format: date-time
+          description: Local closing date and time for the offer
+          example: "2025-06-17 20:00:00"
+        utc_close_date:
+          type: string
+          format: date-time
+          description: UTC closing date and time for the offer
+          example: "2025-06-18 01:00:00"
+        utc_sale_date:
+          type: string
+          format: date-time
+          description: UTC sale date and time
+          example: "2025-06-18 14:30:00"
+        seller:
+          type: string
+          description: Seller information
+          example: ""
+        seller_type:
+          type: string
+          nullable: true
+          description: Type of seller
+          enum: [DEALER, INDIVIDUAL, FLEET, INSURANCE]
+          example: null
+        created_at:
+          type: string
+          format: date-time
+          description: Record creation timestamp
+          example: "2024-10-24T13:57:41.000000Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: Record update timestamp
+          example: "2025-06-11T15:53:35.000000Z"
+
+    Vehicle:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique vehicle identifier
+          example: 4362748
+        country:
+          type: string
+          description: Country code
+          example: "us"
+        source:
+          type: string
+          description: Auction source
+          example: "iaai"
+        make_id:
+          type: integer
+          description: Vehicle make identifier
+          example: 43
+        model_id:
+          type: integer
+          description: Vehicle model identifier
+          example: 256
+        branch_code:
+          type: integer
+          description: Auction branch code
+          example: 372
+        branch_name:
+          type: string
+          description: Auction branch name
+          example: "Anchorage"
+        branch_phone:
+          type: string
+          description: Branch phone number
+          example: "9073125580"
+        stock_number:
+          type: string
+          description: Stock number
+          example: "40567254"
+        vin:
+          type: string
+          description: Vehicle Identification Number
+          example: "4T4BE46KX9R065116"
+        sale_document:
+          type: string
+          description: Type of sale document
+          enum: [BILL OF SALE, CLEAR, SALVAGE, LIEN]
+          example: "BILL OF SALE"
+        loss_type:
+          type: string
+          nullable: true
+          description: Type of loss/damage
+          enum: [COLLISION, FLOOD, FIRE, HAIL, THEFT, OTHER]
+          example: "COLLISION"
+        primary_damage:
+          type: string
+          description: Primary damage description
+          example: "ALL OVER"
+        secondary_damage:
+          type: string
+          description: Secondary damage description
+          example: ""
+        vehicle_status:
+          type: string
+          description: Current vehicle status
+          example: "READY FOR SALE"
+        is_run_and_drive:
+          type: integer
+          description: Whether vehicle runs and drives (1 = yes, 0 = no)
+          enum: [0, 1]
+          example: 0
+        start_status:
+          type: string
+          nullable: true
+          description: Engine start status
+          enum: [STARTS, STATIONARY, UNKNOWN]
+          example: "STATIONARY"
+        buy_now_price:
+          type: number
+          nullable: true
+          description: Buy now price if available
+          example: null
+        year:
+          type: string
+          description: Vehicle year
+          example: "2009"
+        key:
+          type: string
+          description: Key availability
+          enum: [PRESENT, MISSING]
+          example: "PRESENT"
+        body:
+          type: string
+          nullable: true
+          description: Body style
+          example: "Sedan"
+        drive_line_type:
+          type: string
+          nullable: true
+          description: Drivetrain type
+          enum: [FWD, RWD, AWD, 4x4, 4x2]
+          example: "FWD"
+        type:
+          type: string
+          nullable: true
+          description: Vehicle type
+          example: "Passenger Car"
+        class:
+          type: string
+          nullable: true
+          description: Vehicle class
+          example: "Sedan"
+        fuel_type:
+          type: string
+          description: Fuel type
+          enum: [GASOLINE, DIESEL, HYBRID, ELECTRIC, OTHER]
+          example: "GASOLINE"
+        engine:
+          type: string
+          nullable: true
+          description: Engine specification
+          example: "2.4L I-4 DOHC, VVT, 158HP"
+        series:
+          type: string
+          description: Vehicle series/trim
+          example: "LE"
+        cylinder:
+          type: string
+          description: Number of cylinders
+          example: "4 CYL"
+        transmission:
+          type: string
+          description: Transmission type
+          enum: [AUTOMATIC, MANUAL, CVT, UNKNOWN]
+          example: "AUTOMATIC"
+        odometer:
+          type: string
+          description: Odometer reading
+          example: "190431"
+        odom_status:
+          type: string
+          description: Odometer status
+          enum: [ACTUAL, EXCEEDS, NOT_ACTUAL, EXEMPT]
+          example: "ACTUAL"
+        salvage_type:
+          type: string
+          description: Type of salvage item
+          enum: [AUTOMOBILE, BOAT, MOTORCYCLE, RV, TRAILER]
+          example: "AUTOMOBILE"
+        seller:
+          type: string
+          description: Seller information
+          example: ""
+        details_url:
+          type: string
+          format: uri
+          description: URL to detailed vehicle information
+          example: "https://www.iaai.com/VehicleDetail/41056071~US"
+        live_auction_date:
+          type: string
+          format: date-time
+          description: Local auction date and time
+          example: "2025-12-26 09:30:00"
+        live_auction_date_utc:
+          type: string
+          format: date-time
+          description: UTC auction date and time
+          example: "2025-12-26 18:30:00"
+        live_auction_date_bg:
+          type: string
+          format: date-time
+          description: Bulgaria timezone auction date and time
+          example: "2025-12-26 20:30:00"
+        created_at:
+          type: string
+          format: date-time
+          description: Record creation timestamp
+          example: "2025-02-16T18:58:55.000000Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: Record update timestamp
+          example: "2025-02-16T18:58:55.000000Z"
+        make_name:
+          type: string
+          description: Vehicle make name
+          example: "TOYOTA"
+        make_model:
+          type: string
+          description: Vehicle model name
+          example: "CAMRY"
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/VehicleImage'
+        address:
+          $ref: '#/components/schemas/VehicleAddress'
+        additional_details:
+          $ref: '#/components/schemas/AdditionalDetails'
+        make:
+          $ref: '#/components/schemas/Make'
+        model:
+          $ref: '#/components/schemas/Model'
+
+    VehicleImage:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Image identifier
+          example: 88071641
+        vehicle_id:
+          type: integer
+          description: Associated vehicle ID
+          example: 4362748
+        url:
+          type: string
+          format: uri
+          description: Image URL
+          example: "https://cvis.iaai.com/resizer?imageKeys=41056071~SID~B372~S1~I1~RW2576~H1932~TH0&width=640&height=480"
+        type:
+          type: string
+          description: Image type
+          enum: [normal, thumbnail]
+          example: "normal"
+
+    VehicleAddress:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Address identifier
+          example: 4362748
+        vehicle_id:
+          type: integer
+          description: Associated vehicle ID
+          example: 4362748
+        address:
+          type: string
+          description: Street address
+          example: "10005 CRAZY HORSE DR"
+        city:
+          type: string
+          description: City name
+          example: "JUNEAU"
+        state:
+          type: string
+          description: State abbreviation
+          example: "AK"
+        zip:
+          type: string
+          description: ZIP/postal code
+          example: "99801"
+        created_at:
+          type: string
+          format: date-time
+          example: "2025-02-16T18:58:55.000000Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2025-02-16T18:58:55.000000Z"
+
+    AdditionalDetails:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Details identifier
+          example: 4362748
+        vehicle_id:
+          type: integer
+          description: Associated vehicle ID
+          example: 4362748
+        additional_information:
+          type: string
+          description: JSON string containing additional vehicle details
+          example: '[{"Name": "ACV", "Value": "6998"}, {"Name": "Body Style", "Value": "SEDAN"}]'
+
+    Make:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Make identifier
+          example: 43
+        name:
+          type: string
+          description: Make name
+          example: "TOYOTA"
+        created_at:
+          type: string
+          format: date-time
+          example: "2023-12-15T13:32:25.000000Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2023-12-15T13:32:25.000000Z"
+
+    Model:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Model identifier
+          example: 256
+        name:
+          type: string
+          description: Model name
+          example: "CAMRY"
+        make_id:
+          type: integer
+          description: Associated make ID
+          example: 43
+        created_at:
+          type: string
+          format: date-time
+          example: "2023-12-15T13:32:49.000000Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2023-12-15T13:32:49.000000Z"
+
+    PaginationLink:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          nullable: true
+          description: Link URL
+          example: "https://auto.westauctions.online/api/auctions/internal?page=2"
+        label:
+          type: string
+          description: Link label
+          example: "2"
+        active:
+          type: boolean
+          description: Whether this link is currently active
+          example: false
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error message
+          example: "Invalid parameters provided"
+        code:
+          type: integer
+          description: Error code
+          example: 400
+        details:
+          type: object
+          description: Additional error details
+          nullable: true
+
+  securitySchemes:
+    ApiTokenAuth:
+      type: apiKey
+      in: header
+      name: api-token
+      description: API token for authentication
+
+security:
+  - ApiTokenAuth: []
+
+tags:
+  - name: Auctions
+    description: Vehicle auction data operations
+  - name: Buy Now Stocks
+    description: Immediate purchase vehicle inventory operations
+  - name: Bids
+    description: Real-time auction bidding information

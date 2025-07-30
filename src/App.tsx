@@ -6,6 +6,7 @@ import { ApiPage } from './pages/ApiPage';
 import { CustomWebsite } from './pages/CustomWebsite';
 import { AuctionExtension } from './pages/AuctionExtension';
 import { AboutCompany } from './pages/AboutCompany';
+import { ApiDocsPage } from './pages/ApiDocsPage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/custom-website" element={<CustomWebsite />} />
           <Route path="/auction-extension" element={<AuctionExtension />} />
           <Route path="/about" element={<AboutCompany />} />
+          <Route path="/api-docs" element={<ApiDocsPage />} />
         </Routes>
       </main>
       <Footer />

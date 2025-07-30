@@ -12,6 +12,7 @@ export function Header() {
 
   const navigation = [
     { name: t.navigation.api, href: '/api' },
+    { name: 'API Docs', href: '/api-docs' },
     { name: t.navigation.customWebsite, href: '/custom-website' },
     { name: t.navigation.auctionExtension, href: '/auction-extension' },
   ];

@@ -1,5 +1,6 @@
 import { Code, Database, Globe2, Shield, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { JsonViewer } from '../components/JsonViewer';
 import { RequestPackageModal } from '../components/RequestPackageModal';
 import { useLanguageStore } from '../store';
