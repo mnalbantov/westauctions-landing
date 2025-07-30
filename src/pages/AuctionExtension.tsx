@@ -205,7 +205,7 @@ export function AuctionExtension() {
                 </div>
               </div>
               <img
-                src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&q=80"
+                src="https://kehnwklkmquweyoyjijk.supabase.co/storage/v1/object/public/vin-images//market-data-vendors.png"
                 alt="Mobile App Template"
                 className="w-full aspect-[9/16] object-cover"
               />
