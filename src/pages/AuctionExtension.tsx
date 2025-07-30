@@ -224,7 +224,7 @@ export function AuctionExtension() {
               <img
                 src="https://kehnwklkmquweyoyjijk.supabase.co/storage/v1/object/public/vin-images//ai-services-2.png"
                 alt="Social Media Template"
-                className="w-full aspect-square object-cover"
+                className="w-full object-cover"
               />
             </div>
 
