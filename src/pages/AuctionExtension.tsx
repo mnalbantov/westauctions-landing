@@ -237,7 +237,7 @@ export function AuctionExtension() {
                 </div>
               </div>
               <img
-                src="https://kehnwklkmquweyoyjijk.supabase.co/storage/v1/object/public/vin-images//social-post.png"
+                src="https://kehnwklkmquweyoyjijk.supabase.co/storage/v1/object/public/vin-images//vehicle-publish.png"
                 alt="Analytics Template"
                 className="w-full aspect-square object-cover"
               />
@@ -252,7 +252,7 @@ export function AuctionExtension() {
                 </div>
               </div>
               <img
-                src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80"
+                src="https://kehnwklkmquweyoyjijk.supabase.co/storage/v1/object/public/vin-images//social-post.png"
                 alt="Vehicle Details Template"
                 className="w-full aspect-square object-cover"
               />
