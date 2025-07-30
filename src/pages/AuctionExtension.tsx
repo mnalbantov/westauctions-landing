@@ -190,7 +190,7 @@ export function AuctionExtension() {
                 </div>
               </div>
               <img
-                src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80"
+                src="https://kehnwklkmquweyoyjijk.supabase.co/storage/v1/object/public/vin-images//vehicles-list-showcase.png"
                 alt="Desktop Dashboard Template"
                 className="w-full aspect-video object-cover"
               />
