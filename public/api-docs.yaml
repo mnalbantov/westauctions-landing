@@ -294,7 +294,7 @@ components:
         total:
           type: integer
           description: Total number of items
-          example: 53891
+          example: 539891
 
     PaginatedBuyNowStockResponse:
       type: object

@@ -126,7 +126,7 @@ export function ApiDocsPage() {
                 {t.quickStart.step3.description}
               </p>
               <div className="text-primary-600 font-medium">
-                53,891+ {t.quickStart.step3.vehicles}
+                539,891+ {t.quickStart.step3.vehicles}
               </div>
             </div>
           </div>
