@@ -243,6 +243,27 @@ const translations = {
         "subtitle": "Get started with our automation tools and transform your vehicle import operations today",
         "button": "Start Automating"
       }
+    },
+    "apiDocs": {
+      "title": "API Documentation",
+      "subtitle": "Complete reference for the Auto Auctions API. Explore endpoints, test requests, and integrate with your applications.",
+      "quickStart": {
+        "step1": {
+          "title": "Get API Token",
+          "description": "Contact us to obtain your API token for authentication.",
+          "action": "Request Token"
+        },
+        "step2": {
+          "title": "Make Requests",
+          "description": "Include your API token in the api-token header."
+        },
+        "step3": {
+          "title": "Explore Data",
+          "description": "Access vehicle data from IAAI, Copart, and other auction sources.",
+          "vehicles": "vehicles available"
+        }
+      },
+      "loading": "Loading API Documentation..."
     }
   },
   "bg": {
@@ -489,6 +510,27 @@ const translations = {
         "subtitle": "Get started with our automation tools and transform your vehicle import operations today",
         "button": "Start Automating"
       }
+    },
+    "apiDocs": {
+      "title": "API Документация",
+      "subtitle": "Пълна справка за Auto Auctions API. Разгледайте крайни точки, тествайте заявки и интегрирайте с вашите приложения.",
+      "quickStart": {
+        "step1": {
+          "title": "Получете API токен",
+          "description": "Свържете се с нас, за да получите вашия API токен за автентикация.",
+          "action": "Заявете токен"
+        },
+        "step2": {
+          "title": "Правете заявки",
+          "description": "Включете вашия API токен в api-token заглавката."
+        },
+        "step3": {
+          "title": "Разгледайте данните",
+          "description": "Достъп до данни за автомобили от IAAI, Copart и други търгове.",
+          "vehicles": "налични автомобила"
+        }
+      },
+      "loading": "Зареждане на API документацията..."
     }
   }
 };

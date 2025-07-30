@@ -2,8 +2,12 @@ import { useEffect, useState } from 'react';
 import SwaggerUI from 'swagger-ui-react';
 import 'swagger-ui-react/swagger-ui.css';
 import { Code, Book, ExternalLink, Copy, Check } from 'lucide-react';
+import { useLanguageStore } from '../store';
+import { translations } from '../translations';
 
 export function ApiDocsPage() {
+  const { language } = useLanguageStore();
+  const t = translations[language].apiDocs;
   const [spec, setSpec] = useState(null);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
@@ -36,7 +40,7 @@ export function ApiDocsPage() {
       <div className="pt-16 min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading API Documentation...</p>
+          <p className="text-gray-600">{t.loading}</p>
         </div>
       </div>
     );
@@ -51,11 +55,11 @@ export function ApiDocsPage() {
             <div className="flex items-center justify-center gap-3 mb-6">
               <Book className="w-10 h-10 text-primary-300" />
               <h1 className="text-4xl md:text-5xl font-bold text-white">
-                API Documentation
+                {t.title}
               </h1>
             </div>
             <p className="text-xl text-gray-200 max-w-3xl mx-auto mb-8">
-              Complete reference for the Auto Auctions API. Explore endpoints, test requests, and integrate with your applications.
+              {t.subtitle}
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 flex items-center gap-3">
@@ -83,16 +87,16 @@ export function ApiDocsPage() {
                 <div className="bg-primary-100 p-2 rounded-lg">
                   <span className="text-primary-600 font-bold text-lg">1</span>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900">Get API Token</h3>
+                <h3 className="text-lg font-semibold text-gray-900">{t.quickStart.step1.title}</h3>
               </div>
               <p className="text-gray-600 mb-4">
-                Contact us to obtain your API token for authentication.
+                {t.quickStart.step1.description}
               </p>
               <a
                 href="mailto:mnt.developer24@gmail.com"
                 className="text-primary-600 hover:text-primary-700 font-medium inline-flex items-center gap-1"
               >
-                Request Token <ExternalLink className="w-4 h-4" />
+                {t.quickStart.step1.action} <ExternalLink className="w-4 h-4" />
               </a>
             </div>
 
@@ -101,10 +105,10 @@ export function ApiDocsPage() {
                 <div className="bg-primary-100 p-2 rounded-lg">
                   <span className="text-primary-600 font-bold text-lg">2</span>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900">Make Requests</h3>
+                <h3 className="text-lg font-semibold text-gray-900">{t.quickStart.step2.title}</h3>
               </div>
               <p className="text-gray-600 mb-4">
-                Include your API token in the <code className="bg-gray-100 px-2 py-1 rounded">api-token</code> header.
+                {t.quickStart.step2.description}
               </p>
               <div className="bg-gray-900 text-green-400 p-3 rounded text-sm font-mono">
                 curl -H "api-token: YOUR_TOKEN"
@@ -116,13 +120,13 @@ export function ApiDocsPage() {
                 <div className="bg-primary-100 p-2 rounded-lg">
                   <span className="text-primary-600 font-bold text-lg">3</span>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900">Explore Data</h3>
+                <h3 className="text-lg font-semibold text-gray-900">{t.quickStart.step3.title}</h3>
               </div>
               <p className="text-gray-600 mb-4">
-                Access vehicle data from IAAI, Copart, and other auction sources.
+                {t.quickStart.step3.description}
               </p>
               <div className="text-primary-600 font-medium">
-                53,891+ vehicles available
+                53,891+ {t.quickStart.step3.vehicles}
               </div>
             </div>
           </div>
